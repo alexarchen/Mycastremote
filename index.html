@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>My Cast Remote</title>
+  <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="apple-touch-icon" href="images/hello-icon-152.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="white"/>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Hello World">
+  <meta name="msapplication-TileImage" content="images/hello-icon-144.png">
+  <meta name="msapplication-TileColor" content="#FFFFFF">
+</head>
+<body class="fullscreen">
+  <div class="container">
+My Remote
+<google-cast-launcher id="castbutton"></google-cast-launcher>
+<div id="remote">
+<table border=0>
+<tr>
+<td></td>
+<td><button onclick='command(38)'>Up</button></td>
+<td></td>
+</tr>
+<tr>
+<td><button onclick='command(37)'>Left</button></td>
+<td><button onclick='command(13)'>Play</button></td>
+<td><button onclick='command(39)'>Right</button></td>
+</tr>
+<tr>
+<td></td>
+<td><button onclick='command(40)'>Down</button>
+</td>
+<td><button onclick='command(27)'>Back</button></td>
+</tr>
+</table>
+</div>
+
+<script>
+
+window['__onGCastApiAvailable'] = function(isAvailable) {
+  if (isAvailable) {
+    initializeCastApi();
+  }
+};
+var remotePlayer;
+var remotePlayerController;
+
+initializeCastApi = function() {
+  cast.framework.CastContext.getInstance().setOptions({
+    receiverApplicationId: 'F9AFE1BB',
+    autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED
+  });
+
+ remotePlayer = new cast.framework.RemotePlayer();
+ remotePlayerController = new cast.framework.RemotePlayerController(remotePlayer);
+
+ remotePlayerController.addEventListener(
+  cast.framework.RemotePlayerEventType.IS_CONNECTED_CHANGED, function() {
+    if (!remotePlayer.isConnected) {
+
+      console.log('RemotePlayerController: Player disconnected');
+      document.getElementById('cast').style.display="block";
+      document.getElementById('remote').style.display="none";
+
+      // Update local player to disconnected state
+      cast.framework.CastContext.getInstance().requestSession();
+
+    }
+   else
+   {
+     document.getElementById('cast').style.display="none";
+     document.getElementById('remote').style.display="inline";
+   }
+  });
+
+};
+
+function command(id){
+    const castSession = cast.framework.CastContext.getInstance().getCurrentSession();
+    castSession.sendMessage('urn:x-cast:com.myremotelibrary.commands', {
+      type: 'COMMAND',
+      command: id,
+    });
+}
+
+</script>
+
+
+  </div>
+  <script src="js/main.js"></script>
+  <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
+</body>
+</html>
