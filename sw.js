@@ -1,9 +1,10 @@
-var cacheName = 'hello-pwa';
+var cacheName = 'mycastremote';
 var filesToCache = [
   '',
   'index.html',
   'css/style.css',
-  'js/main.js'
+  'js/main.js',
+  'https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1'
 ];
 
 /* Start the service worker and cache all of the app's content */
