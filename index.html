@@ -20,24 +20,24 @@
 My Remote
 <google-cast-launcher id="castbutton"></google-cast-launcher>
 <div id="remote">
-<table border=0>
-<tr>
-<td></td>
-<td><button onclick='command(38)'>Up</button></td>
-<td></td>
-</tr>
-<tr>
-<td><button onclick='command(37)'>Left</button></td>
-<td><button onclick='command(13)'>Play</button></td>
-<td><button onclick='command(39)'>Right</button></td>
-</tr>
-<tr>
-<td></td>
-<td><button onclick='command(40)'>Down</button>
-</td>
-<td><button onclick='command(27)'>Back</button></td>
-</tr>
-</table>
+ <table border=0>
+ <tr>
+ <td></td>
+ <td><button onclick='command(38)'>Up</button></td>
+ <td></td>
+ </tr>
+ <tr>
+ <td><button onclick='command(37)'>Left</button></td>
+ <td><button onclick='command(13)'>Play</button></td>
+ <td><button onclick='command(39)'>Right</button></td>
+ </tr>
+ <tr>
+ <td></td>
+ <td><button onclick='command(40)'>Down</button>
+ </td>
+ <td><button onclick='command(27)'>Back</button></td>
+ </tr>
+ </table>
 </div>
 
 <script>
@@ -61,19 +61,21 @@ initializeCastApi = function() {
 
  remotePlayerController.addEventListener(
   cast.framework.RemotePlayerEventType.IS_CONNECTED_CHANGED, function() {
-    if (!remotePlayer.isConnected) {
+    if (!remotePlayer.isConnected) 
+    {
 
       console.log('RemotePlayerController: Player disconnected');
-      document.getElementById('cast').style.display="block";
+
+      document.getElementById('castbutton').style.display="block";
       document.getElementById('remote').style.display="none";
 
       // Update local player to disconnected state
-      cast.framework.CastContext.getInstance().requestSession();
+/*      cast.framework.CastContext.getInstance().requestSession();*/
 
     }
    else
    {
-     document.getElementById('cast').style.display="none";
+     document.getElementById('castbutton').style.display="none";
      document.getElementById('remote').style.display="inline";
    }
   });
